@@ -29,25 +29,18 @@ MainWindow::MainWindow() :
 
   // Create header text
   wxStaticText* header_lbl = new wxStaticText(central_panel, wxID_ANY,
-                                              _("LEGO Island Rebuilder\n"),
-                                              wxDefaultPosition,
-                                              wxDefaultSize,
-                                              wxALIGN_CENTRE_HORIZONTAL);
-  header_lbl->SetFont(header_lbl->GetFont().MakeBold());
+                                              _("LEGO Island Rebuilder\n"));
+  MakeTextBold(header_lbl);
   layout->Add(header_lbl,
               0,
-              wxEXPAND | wxTOP,
+              wxTOP | wxALIGN_CENTER_HORIZONTAL,
               padding);
 
   // Create link
   layout->Add(new wxHyperlinkCtrl(central_panel, wxID_ANY,
                                   _("by MattKC (www.legoisland.org)"),
-                                  wxT("https://www.legoisland.org/"),
-                                  wxDefaultPosition,
-                                  wxDefaultSize,
-                                  wxHL_DEFAULT_STYLE | wxALIGN_CENTRE_HORIZONTAL),
-              0,
-              wxEXPAND);
+                                  wxT("https://www.legoisland.org/")),
+              0, wxALIGN_CENTER_HORIZONTAL);
 
   // Create tabs
   wxNotebook* notebook = new wxNotebook(central_panel, wxID_ANY);
@@ -78,18 +71,15 @@ MainWindow::MainWindow() :
   description_panel->SetSizer(description_sizer);
 
   patches_title_lbl_ = new wxStaticText(description_panel, wxID_ANY, wxString());
-  patches_title_lbl_->SetFont(patches_title_lbl_->GetFont().MakeBold());
+  MakeTextBold(patches_title_lbl_);
   description_sizer->Add(patches_title_lbl_, 0, wxEXPAND);
 
   patches_description_lbl_ = new wxStaticText(description_panel, wxID_ANY, wxString(),
                                               wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
-  patches_description_lbl_->SetMinClientSize(wxSize(0, patches_description_lbl_->GetFont().GetPixelSize().y * 3));
+  patches_description_lbl_->SetMinSize(wxSize(0, patches_description_lbl_->GetFont().GetPixelSize().y * 3));
   description_sizer->Add(patches_description_lbl_, 1, wxEXPAND);
 
   splitter->SplitHorizontally(patches_grid_, description_panel);
-
-  // Auto-size
-  splitter->SetSashGravity(0.75);
 
   // Create music tab
   wxPanel* music_tab = new wxPanel(notebook);
@@ -97,12 +87,15 @@ MainWindow::MainWindow() :
 
   // Create launch buttons
   wxButton* run_btn = new wxButton(central_panel, ID_RUN, _("Run"));
-  run_btn->SetFont(run_btn->GetFont().MakeBold());
+  MakeTextBold(run_btn);
   layout->Add(run_btn, 0, wxEXPAND | wxALL, padding);
 
   central_panel->SetSizer(layout);
 
   patches_grid_->SetFocus();
+
+  // Auto-size splitter
+  splitter->SetSashPosition(200);
 }
 
 void MainWindow::AddDirect3DDevice(const wxString &name, const wxString &device_id)
@@ -339,9 +332,9 @@ BOOL CALLBACK EnumDisplayDrivers(GUID FAR* pGuid,
     wxString device_id = wxString::Format(wxT("%i 0x%08x 0x%04x%04x 0x%02x%02x%02x%02x 0x%02x%02x%02x%02x"),
                                           device_count, lpGuid->Data1, lpGuid->Data3, lpGuid->Data2,
                                           lpGuid->Data4[3], lpGuid->Data4[2],
-                                          lpGuid->Data4[1], lpGuid->Data4[0],
-                                          lpGuid->Data4[7], lpGuid->Data4[6],
-                                          lpGuid->Data4[5], lpGuid->Data4[4]);
+        lpGuid->Data4[1], lpGuid->Data4[0],
+        lpGuid->Data4[7], lpGuid->Data4[6],
+        lpGuid->Data4[5], lpGuid->Data4[4]);
 
     static_cast<MainWindow*>(context)->AddDirect3DDevice(device_name, device_id);
   }
@@ -360,9 +353,16 @@ void MainWindow::GetDirect3DDevices()
   DirectDrawEnumerateA(EnumDisplayDrivers, this);
 }
 
-wxBEGIN_EVENT_TABLE(MainWindow, wxFrame)
+void MainWindow::MakeTextBold(wxWindow *window)
+{
+  wxFont f = window->GetFont();
+  f.SetWeight(wxFONTWEIGHT_BOLD);
+  window->SetFont(f);
+}
+
+BEGIN_EVENT_TABLE(MainWindow, wxFrame)
 EVT_MENU(wxID_EXIT, MainWindow::OnExit)
 EVT_BUTTON(ID_RUN, MainWindow::OnRun)
 EVT_PG_SELECTED(ID_PATCHGRID, MainWindow::OnPatchGridSelected)
 EVT_PG_CHANGED(ID_PATCHGRID, MainWindow::OnPatchGridChanged)
-wxEND_EVENT_TABLE()
+END_EVENT_TABLE()

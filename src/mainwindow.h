@@ -28,6 +28,8 @@ private:
 
   void GetDirect3DDevices();
 
+  static void MakeTextBold(wxWindow* window);
+
   enum {
     ID_RUN = 1,
     ID_PATCHGRID
@@ -36,7 +38,7 @@ private:
   wxArrayString d3d_device_names_;
   wxArrayString d3d_device_entries_;
 
-  wxDECLARE_EVENT_TABLE();
+  DECLARE_EVENT_TABLE();
 
   wxPropertyGrid* patches_grid_;
   wxStaticText* patches_title_lbl_;
