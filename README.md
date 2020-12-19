@@ -6,7 +6,7 @@ A launcher and mod/patch tool for the 1997 video game *LEGO Island*.
 
 [Homepage](https://www.legoisland.org/rebuilder) | [Download](https://github.com/itsmattkc/LEGOIslandRebuilder/releases/download/continuous/Rebuilder.exe) | [Patreon](https://www.patreon.com/mattkc)
 
-**Supports Windows 98+** (requires [.NET Framework 2.0+](http://web.archive.org/web/20051201020101/http://download.microsoft.com/download/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe)).
+**Supports Windows 95/98/98SE/2000/Me/XP/Vista/7/8/8.1/10.**
 
 Rebuilder makes no permanent changes to your *LEGO Island* installation and none of its patches require administrator privileges (it can also patch the parts of *LEGO Island* that require administrator privileges).
 
